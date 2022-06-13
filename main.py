@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from scipy.io import wavfile
+import numpy as np
 import pyworld as pw
 
-WAV_FILE = 'path_to_the_wav_file'
+# ここを変更する
+PERSON_ID = 'demo'
 
-fs, data = wavfile.read(WAV_FILE)
+AUDIO_PATH = 'audioData/#' + PERSON_ID + '.wav' 
+
+fs, data = wavfile.read(AUDIO_PATH)
 data = data.astype(np.float)  # WORLDはfloat前提のコードになっているのでfloat型にしておく
 
 _f0, t = pw.dio(data, fs)  # 基本周波数の抽出
