@@ -1,6 +1,6 @@
 import enum
 
-# F0, SP, APの値をまとめているところ
+# F0, SP, APの値をまとめているところ（暫定版なので適当）
 
 class F0Type(enum.Enum):
     f_m2 = 0.2

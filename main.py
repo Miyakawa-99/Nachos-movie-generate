@@ -6,10 +6,9 @@ from audio_converter import AudioConverter
 # ここを変更する
 PERSON_ID = 'A'
 
-AUDIO_PATH = 'assets/audioData/#' + PERSON_ID + '.wav' 
 
 if confirmCreateMovie(person_id=PERSON_ID):
-    audioConverter = AudioConverter(audio_path=AUDIO_PATH)
+    audioConverter = AudioConverter(person_id=PERSON_ID)
     
     # 元データのf0, sp, apの取得を行う
     # audioConverter.extractParameters()
@@ -26,6 +25,6 @@ if confirmCreateMovie(person_id=PERSON_ID):
         print('Start to generate ' + audioIndex +' audio data!')
         print('f0: ' + str(f0) + ', sp: ' + str(sp) + ', ap: ' + str(ap) + ',pv: ' + str(pv))
         # ここで作る
+        audioConverter.convert(param_ap=0.1, param_f0=1.0, param_sp=1.2, index = audioIndex)
         rowIndex += 1
     print("End")
-    # print(df.query('お店 == "●×商店"'))
