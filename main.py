@@ -1,19 +1,31 @@
 # -*- coding: utf-8 -*-
-from scipy.io import wavfile
-import numpy as np
-import pyworld as pw
-
+import pandas as pd
+from tools.terminal_interaction import confirmCreateMovie
+from audio_converter import AudioConverter
+          
 # ここを変更する
-PERSON_ID = 'demo'
+PERSON_ID = 'A'
 
-AUDIO_PATH = 'audioData/#' + PERSON_ID + '.wav' 
+AUDIO_PATH = 'assets/audioData/#' + PERSON_ID + '.wav' 
 
-fs, data = wavfile.read(AUDIO_PATH)
-data = data.astype(np.float)  # WORLDはfloat前提のコードになっているのでfloat型にしておく
+if confirmCreateMovie(person_id=PERSON_ID):
+    audioConverter = AudioConverter(audio_path=AUDIO_PATH)
+    
+    # 元データのf0, sp, apの取得を行う
+    # audioConverter.extractParameters()
 
-_f0, t = pw.dio(data, fs)  # 基本周波数の抽出
-f0 = pw.stonemask(data, _f0, t, fs)  # 基本周波数の修正
-sp = pw.cheaptrick(data, f0, t, fs)  # スペクトル包絡の抽出
-ap = pw.d4c(data, f0, t, fs)  # 非周期性指標の抽出
-
-print(f0,sp,ap)
+    df = pd.read_csv('assets/order.csv')
+    rowIndex = 0
+    columnIndex = df.columns.get_loc('participant #' + PERSON_ID)
+    while rowIndex < 54: # 54個生成する
+        audioIndex = df.iat[rowIndex, columnIndex]
+        f0 = df.iat[rowIndex, columnIndex + 1]
+        sp = df.iat[rowIndex, columnIndex + 2]
+        ap = df.iat[rowIndex, columnIndex + 3]
+        pv = df.iat[rowIndex, columnIndex + 4]
+        print('Start to generate ' + audioIndex +' audio data!')
+        print('f0: ' + str(f0) + ', sp: ' + str(sp) + ', ap: ' + str(ap) + ',pv: ' + str(pv))
+        # ここで作る
+        rowIndex += 1
+    print("End")
+    # print(df.query('お店 == "●×商店"'))
