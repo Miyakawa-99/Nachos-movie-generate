@@ -2,17 +2,14 @@
 import pandas as pd
 from tools.terminal_interaction import confirmCreateMovie
 from audio_converter import AudioConverter
+from tools.parameter_translate import parameterTranslate
           
 # ここを変更する
 PERSON_ID = 'A'
 
-
 if confirmCreateMovie(person_id=PERSON_ID):
     audioConverter = AudioConverter(person_id=PERSON_ID)
     
-    # 元データのf0, sp, apの取得を行う
-    # audioConverter.extractParameters()
-
     df = pd.read_csv('assets/order.csv')
     rowIndex = 0
     columnIndex = df.columns.get_loc('participant #' + PERSON_ID)
@@ -23,8 +20,10 @@ if confirmCreateMovie(person_id=PERSON_ID):
         ap = df.iat[rowIndex, columnIndex + 3]
         pv = df.iat[rowIndex, columnIndex + 4]
         print('Start to generate ' + audioIndex +' audio data!')
-        print('f0: ' + str(f0) + ', sp: ' + str(sp) + ', ap: ' + str(ap) + ',pv: ' + str(pv))
+        nf0, nsp, nap = parameterTranslate(f0 = f0, sp = sp, ap = ap)
+        print('f0: ' + str(f0) + ' = ' + str(nf0.value) + ', sp: ' + str(sp) + ' = ' + str(nsp.value) + ', ap: ' + str(ap) + ' = ' + str(nap.value) + ', pv: ' + str(pv))
         # ここで作る
-        audioConverter.convert(param_ap=0.1, param_f0=1.0, param_sp=1.2, index = audioIndex)
+        audioConverter.convert(param_f0 = nf0.value, param_ap = nap.value, param_sp = nsp.value, index = audioIndex)
+        print('Done !!!!!\n')
         rowIndex += 1
     print("End")

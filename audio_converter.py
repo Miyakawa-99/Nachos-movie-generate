@@ -5,6 +5,7 @@ import pyworld as pw
 
 class AudioConverter:
     person_id = ''
+    data_astype = 'int16'
     # ここ増やした方がいい
     f0 = 0
     sp = 0
@@ -18,6 +19,7 @@ class AudioConverter:
         audio_path = 'assets/audioData/#' + self.person_id + '.wav' 
         # 元データのf0, sp, apの取得を行う
         self.fs, data = wavfile.read(audio_path)
+        self.data_astype = data.dtype
         data = data.astype(np.float)  # WORLDはfloat前提のコードになっているのでfloat型にしておく
 
         _f0, t = pw.dio(data, self.fs)  # 基本周波数の抽出
@@ -35,8 +37,9 @@ class AudioConverter:
         ## sp
         converted_sp = np.zeros_like(self.sp)
         for f in range(converted_sp.shape[1]):
-            converted_sp[:, f] = self.sp[:, int(f/param_sp)]
-        converted_audio = pw.synthesize(converted_f0, converted_sp, converted_ap, self.fs)  
+            # converted_sp[:, f] = self.sp[:, int(f/param_sp)]
+            converted_sp[:, f] = self.sp[:, int(f/1)]
+        converted_audio = pw.synthesize(converted_f0, converted_sp, converted_ap, self.fs).astype(self.data_astype)
         self._export(data=converted_audio, index = index)
     def _export(self, data, index):
         wavfile.write('outputs/audioData/' + self.person_id + index + '.wav', rate=self.fs, data=data)
