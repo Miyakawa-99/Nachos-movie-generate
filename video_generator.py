@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-from scipy.io import wavfile
-import numpy as np
-import math
-from scipy import interpolate
 import moviepy.editor as mp
+import os
 
 class VideoGenerator:
     person_id = ''
@@ -36,7 +33,6 @@ class VideoGenerator:
 
         clip = mp.VideoFileClip('assets/videoData/3pv.mp4').subclip()
         videoclip = clip.set_audio(concat)
-        videoclip.write_videofile('synthesis.mp4')
-        # self._export(data = converted_audio, index = index)
-    def _export(self, data, index):
-        wavfile.write('outputs/videoData/#' + self.person_id + self.trialIndex + '.mp4', rate=self.fs, data=data)
+        dir_path = 'outputs/videoData/#' + self.person_id
+        os.makedirs(dir_path, exist_ok=True)
+        videoclip.write_videofile(dir_path + '/' + self.trialIndex + '.mp4')
