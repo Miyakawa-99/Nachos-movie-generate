@@ -20,7 +20,7 @@ if confirmCreateMovie(person_id=PERSON_ID):
         ap = df.iat[rowIndex, columnIndex + 3]
         pv = df.iat[rowIndex, columnIndex + 4]
         print('Start to generate ' + audioIndex +' audio data!')
-        nf0, nsp, nap = parameterTranslate(f0 = f0, sp = sp, ap = ap)
+        nf0, nap, nsp = parameterTranslate(f0 = f0, ap = ap, sp = sp)
         print('f0: ' + str(f0) + ' = ' + str(nf0.value) + ', sp: ' + str(sp) + ' = ' + str(nsp.value) + ', ap: ' + str(ap) + ' = ' + str(nap.value) + ', pv: ' + str(pv))
         # ここで作る
         audioConverter.convert(param_f0 = nf0.value, param_ap = nap.value, param_sp = nsp.value, index = audioIndex)
