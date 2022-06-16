@@ -6,8 +6,8 @@ class F0Type(enum.Enum):
     f_m2 = 0.2
     f_m1 = 0.4
     f_0 = 0.6
-    f_1 = 1.0
-    f_2 = 1.2
+    f_1 = 1.5
+    f_2 = 2.2
 
 class ApType(enum.Enum):
     a_m2 = 0.2
