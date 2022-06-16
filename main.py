@@ -2,6 +2,7 @@
 import pandas as pd
 from tools.terminal_interaction import confirmCreateMovie
 from audio_converter import AudioConverter
+from video_generator import VideoGenerator
 from tools.parameter_translate import parameterTranslate
           
 # ここを変更する
@@ -26,5 +27,11 @@ if confirmCreateMovie(person_id=PERSON_ID):
             # ここで作る
             audioConverter.convert(param_f0 = nf0.value, param_ap = nap.value, param_sp = nsp.value, trialIndex = trialIndex)
             print('Done !!!!!\n')
+            # ここで動画作る
+            # DialogIndexが３の時点でやっと動画に使う音源が用意されている
+            if dialogueIndex == 3:
+                videoGenerator = VideoGenerator(person_id = PERSON_ID, trialIndex = trialIndex)
+                videoGenerator.generate(person_view = pv)
             rowIndex += 1
     print("End")
+
