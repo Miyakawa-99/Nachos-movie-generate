@@ -33,7 +33,7 @@ class VideoGenerator:
 
         concat = mp.concatenate_audioclips([unity1Clip, query1Clip, unity2Clip, query2Clip, unity3Clip, query3Clip])
 
-        clip = mp.VideoFileClip('assets/videoData/3pv.mp4').subclip()
+        clip = mp.VideoFileClip('assets/videoData/' + str(person_view) + 'pv.mp4').subclip()
         videoclip = clip.set_audio(concat)
         dir_path = 'outputs/videoData/#' + self.person_id
         os.makedirs(dir_path, exist_ok=True)
